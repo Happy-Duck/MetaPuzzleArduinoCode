@@ -20,12 +20,9 @@ void setup() {
 
 void loop() {
   if (Serial.available() > 0) {
-    String input = Serial.readStringUntil('\n');
-    if (input.length() <= 0) return;
-    if (input.length() > 1) {
-      Serial.print("One letter at a time\n");
-      return;
-    }
+    char input = Serial.read();
+    if (input == '\n' || input == '\r') return;
+
     entered = entered + input;
     Serial.print("So far you have entered: " + entered + '\n');
     // Serial.println();
@@ -38,8 +35,11 @@ void loop() {
         fail();
       }
       entered = "";
+      clearInput();
     }
-    Serial.println("Enter letter:");
+    if (Serial.available() == 0) {
+      Serial.println("Enter letter:");
+    }
   }
 }
 
@@ -75,6 +75,12 @@ void reset() {
 void playNote(int freq, int ms) {
   tone(speaker, freq, ms);
   delay(ms + 20);
+}
+
+void clearInput() {
+  while (Serial.available() > 0) {
+    Serial.read();
+  }
 }
 
 // To do: function that converts the actual keypad input to letters (using adafruit keypad library)
