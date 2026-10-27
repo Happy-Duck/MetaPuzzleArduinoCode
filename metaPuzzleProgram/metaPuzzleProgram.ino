@@ -1,7 +1,8 @@
 // Hello, welcome to the meta puzzle code, its not too complicated... yet
 const int redLed = A0;  // "A" means analog pin
-const int greenLed = A2;
-const int speaker = 9; // number means digital pin
+const int greenLed = A1;
+const int solenoid = 2;
+const int speaker = 3; // number means digital pin
 String entered = ""; // the password entered so far
 
 const String passcode = "FAMILY"; // the true password
@@ -10,6 +11,7 @@ void setup() {
   pinMode(redLed, OUTPUT);
   pinMode(greenLed, OUTPUT);
   pinMode(speaker, OUTPUT);
+  pinMode(solenoid, OUTPUT);
   reset();
   
   Serial.begin(9600);
@@ -45,11 +47,10 @@ void success() {
   Serial.println("Congratulations, you got the code right!");
   digitalWrite(redLed, LOW);
   digitalWrite(greenLed, HIGH);
+  digitalWrite(solenoid, HIGH);
   
   playNote(392, 120);
   playNote(523, 500);
-
-  //unlock solenoid TBD
 
   delay(3000);
   reset();
@@ -68,6 +69,7 @@ void fail() {
 void reset() {
   digitalWrite(redLed, LOW);
   digitalWrite(greenLed, LOW);
+  digitalWrite(solenoid, LOW);
 }
 
 void playNote(int freq, int ms) {
@@ -77,6 +79,5 @@ void playNote(int freq, int ms) {
 
 // To do: function that converts the actual keypad input to letters (using adafruit keypad library)
 // To do: get input from actual keypad
-// To do: solenoid lock/unlock code
 
 
