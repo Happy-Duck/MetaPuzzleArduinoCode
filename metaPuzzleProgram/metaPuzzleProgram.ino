@@ -132,7 +132,4 @@ void checkEntered() {
   }
 }
 
-// To do: function that converts the actual keypad input to letters (using adafruit keypad library)
-// To do: get input from actual keypad
-
 
