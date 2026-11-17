@@ -21,8 +21,8 @@ char keys[ROWS][COLS] = {
   {'7','8','9'},
   {'*','0','#'}
 };
-byte rowPins[ROWS] = {4, 5, 7, 6}; //connect to the row pinouts of the keypad
-byte colPins[COLS] = {10, 9, 8}; //connect to the column pinouts of the keypad
+byte rowPins[ROWS] = {7, 6, 5, 4}; //connect to the row pinouts of the keypad
+byte colPins[COLS] = {8, 9, 10}; //connect to the column pinouts of the keypad
 
 //initialize an instance of class NewKeypad
 Adafruit_Keypad customKeypad = Adafruit_Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS);
@@ -69,6 +69,8 @@ void loop() {
     }
     if (input != '~' && e.bit.EVENT == KEY_JUST_PRESSED) {
       entered = entered + input;
+      input = '~';
+      playNote(2700, 100);
       Serial.print("So far you have entered: " + entered + '\n');
       checkEntered();
       delay(100);
@@ -82,9 +84,9 @@ void success() {
   digitalWrite(redLed, LOW);
   digitalWrite(greenLed, HIGH);
   digitalWrite(solenoid, HIGH);
-  
-  playNote(392, 120);
-  playNote(523, 500);
+  playNote(2700, 100);
+  playNote(2820, 180);
+  playNote(3830, 500);
 
   delay(3000);
   reset();
@@ -94,8 +96,8 @@ void success() {
 void fail() {
   Serial.println("Wrong code, try again");
   digitalWrite(redLed, HIGH);
-  playNote(55, 100);
-  playNote(55, 400);
+  playNote(1000, 100);
+  playNote(1000, 400);
   delay(500);
   reset();
 }
